@@ -11,6 +11,7 @@
 ## 3 процесс с PID 1
 
 В виртуальной машине Ubuntu 20.04:
+
 	vagrant@ubuntu-20:~$ ps -axo ppid,pid,cmd|awk '$1=="1" || $2=="1" {print $0}'
 	      0       1 /sbin/init
 	      1     410 /lib/systemd/systemd-journald

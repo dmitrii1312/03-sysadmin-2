@@ -9,7 +9,30 @@
 	grep -с <some_string> <some_file>
 	
 ## 3 процесс с PID 1
-	/sbin/init
+
+В виртуальной машине Ubuntu 20.04:
+	vagrant@ubuntu-20:~$ ps -axo ppid,pid,cmd|awk '$1=="1" || $2=="1" {print $0}'
+	      0       1 /sbin/init
+	      1     410 /lib/systemd/systemd-journald
+	      1     434 /lib/systemd/systemd-udevd
+	      1     435 /lib/systemd/systemd-networkd
+	      1     478 /usr/lib/linux-tools/5.4.0-37-generic/hv_kvp_daemon -n
+	      1     581 /sbin/multipathd -d -s
+	      1     668 /lib/systemd/systemd-resolved
+	      1     671 /usr/lib/accountsservice/accounts-daemon
+	      1     672 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+	      1     679 /usr/lib/linux-tools/5.4.0-37-generic/hv_vss_daemon -n
+	      1     684 /usr/sbin/irqbalance --foreground
+	      1     688 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+	      1     690 /usr/sbin/rsyslogd -n -iNONE
+	      1     695 /lib/systemd/systemd-logind
+	      1     740 /usr/lib/policykit-1/polkitd --no-debug
+	      1     782 /usr/sbin/cron -f
+	      1     785 /usr/sbin/atd -f
+	      1     793 /usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 111:118
+	      1     798 /sbin/agetty -o -p -- \u --noclear tty1 linux
+	      1     799 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+	      1    1461 /lib/systemd/systemd --user
 
 ## 4 команда, которая перенаправит вывод stderr ls на другую сессию терминала?
 	ls 2> /dev/pts/x
@@ -29,8 +52,7 @@
 
 ## 8 Получится ли в качестве входного потока для pipe использовать только stderr команды, не потеряв при этом отображение stdout на pty?
 
-	bash 5>&1 
-	cat file 2>&1 >/proc/$$/fd/5
+ 	cat file 3>&1 1>&2 2>&3 3>&-
 	
 ## 9 Что выведет команда cat /proc/$$/environ? Как еще можно получить аналогичный по содержанию вывод?
 
